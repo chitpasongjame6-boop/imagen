@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs'
 import { Db, MongoClient } from 'mongodb'
 
 const uri = process.env.MONGODB_URI
-const dbName = process.env.MONGODB_DB || 'simagent'
 
 type MongoCache = {
   client?: MongoClient
@@ -25,11 +24,11 @@ export async function getDb() {
   if (!cache.client) {
     cache.client = new MongoClient(uri)
     await cache.client.connect()
-    cache.db = cache.client.db(dbName)
+    cache.db = cache.client.db()
   }
 
   if (!cache.db) {
-    cache.db = cache.client.db(dbName)
+    cache.db = cache.client.db()
   }
 
   if (!cache.indexesReady) {
